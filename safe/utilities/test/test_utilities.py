@@ -72,6 +72,28 @@ class UtilitiesTest(unittest.TestCase):
         self.assertFalse(is_plugin_installed('inasafeZ'))
 
 
+    def test_get_help_html(self):
+        """Test that get_help_html works"""
+
+        # no message: default to dock_help
+        text = get_help_html()
+        self.assertTrue(html_help_header() in text)
+        self.assertTrue(html_footer() in text)
+        self.assertTrue(dock_help().to_html() in text)
+
+        # custom message
+        message = Message("A text message")
+        text = get_help_html(message)
+        self.assertTrue(message.to_html() in text)
+
+        # custom unicode message
+        message = Message("A text message with some unicode chars: математика")
+        text = get_help_html(message)
+        self.assertTrue(message.to_html() in text)
+
+
+
+
 if __name__ == '__main__':
     suite = unittest.makeSuite(UtilitiesTest)
     runner = unittest.TextTestRunner(verbosity=2)

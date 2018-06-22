@@ -27,7 +27,21 @@ DIR := ${CURDIR}
 # Please dont remove en here
 LOCALES = en id fr vi es_ES
 
+# QGIS3 default profile dir for installation
+QGISDIR=.local/share/QGIS/QGIS3/profiles/default
+
 default: quicktest
+
+
+deploy:
+	@echo
+	@echo "------------------------------------------"
+	@echo "Deploying (symlinking) plugin to your qgis3 directory."
+	@echo "------------------------------------------"
+	# The deploy  target only works on unix like operating system where
+	# the Python plugin directory is located at:
+	# $HOME/$(QGISDIR)/python/plugins
+	ln -s `pwd` $(HOME)/$(QGISDIR)/python/plugins/${PWD##*/}
 
 #Qt .ts file updates - run to register new strings for translation in safe_qgis
 update-translation-strings:
